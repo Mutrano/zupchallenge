@@ -1,5 +1,7 @@
 package com.mutra.zupchallenge.domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,14 +24,13 @@ public class User {
 	@Column(unique = true)
 	private String cpf;
 	
-	private String dateOfBirth;
+	private LocalDate dateOfBirth;
 	
 	public User() {
 		
 	}
 
-	public User(Integer id, String name, String email, String cpf, String dateOfBirth) {
-		this.id = id;
+	public User(Integer id, String name, String email, String cpf, LocalDate dateOfBirth) {
 		this.name = name;
 		this.email = email;
 		this.cpf = cpf;
@@ -60,7 +61,7 @@ public class User {
 		return cpf;
 	}
 
-	public String getDateOfBirth() {
+	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
 
