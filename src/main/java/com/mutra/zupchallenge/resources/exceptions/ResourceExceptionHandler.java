@@ -33,19 +33,20 @@ public class ResourceExceptionHandler {
 	}	
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
+	public ResponseEntity<ValidationError> validationException(MethodArgumentNotValidException e, HttpServletRequest request) {
 		String error = "Erro de validação";
-		ValidationError err = new ValidationError(Instant.now(), HttpStatus.BAD_REQUEST.value(),error, "Cheque novamente os dados de entrada", request.getRequestURI());
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		ValidationError err = new ValidationError(Instant.now(), status.value(),error, "Cheque novamente os dados de entrada", request.getRequestURI());
 		for (FieldError x : e.getBindingResult().getFieldErrors()) {
 			err.addError(x.getField(), x.getDefaultMessage());
 		}		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+		return ResponseEntity.status(status).body(err);
 	}
 	@ExceptionHandler(UniquenessException.class)
 	public ResponseEntity<ValidationError> constraint(UniquenessException e, HttpServletRequest request) {
 		String error = "Erro no banco de dados";
 		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
-		ValidationError err = new ValidationError(Instant.now(), HttpStatus.UNPROCESSABLE_ENTITY.value(),error, "Cheque novamente os dados de entrada", request.getRequestURI());
+		ValidationError err = new ValidationError(Instant.now(), status.value(),error, "Cheque novamente os dados de entrada", request.getRequestURI());
 		
 		Optional<User> aux1=userRepository.findByEmail(e.getObj().getEmail());
 		Optional<User> aux2=userRepository.findByCpf(e.getObj().getCpf());
