@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 import com.mutra.zupchallenge.domain.Vaccination;
 @Repository
 public interface VaccinationRepository extends JpaRepository<Vaccination,Integer>{
-
 }
